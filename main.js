@@ -1,4 +1,4 @@
-import * as THREE from './libraries/three.module.js';
+import * as THREE from 'three';
 import { OrbitControls } from './addons/OrbitControls.js';
 import { DragControls } from './addons/DragControls.js';
 import { CSS2DRenderer, CSS2DObject } from './addons/CSS2DRenderer.js';
