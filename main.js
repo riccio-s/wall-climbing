@@ -5,8 +5,7 @@ import { CSS2DRenderer, CSS2DObject } from './addons/CSS2DRenderer.js';
 import { GLTFLoader } from './addons/GLTFLoader.js';
 
 import * as CANNON from './libraries/cannon-es.js';
-import * as TWEEN from './libraries/tween.js';
-
+import * as TWEEN from './libraries/tween.js/dist/tween.esm.js';
 
 const canvas = document.querySelector('#c');
 const scene = new THREE.Scene();
