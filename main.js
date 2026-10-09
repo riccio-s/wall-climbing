@@ -21,8 +21,6 @@ renderer.shadowMap.enabled = true;
 
 document.body.appendChild( renderer.domElement );
 
-//const orbitcontrols = new OrbitControls( camera, renderer.domElement );
-
 function resizeRendererToDisplaySize(renderer) {
 	const canvas = renderer.domElement;
 	const width = canvas.clientWidth;
@@ -155,10 +153,6 @@ model.traverse(function (child) {
 
 console.log(ossa);
 
-//const helper = new THREE.SkeletonHelper(model);
-//helper.material.linewidth = 3;
-//scene.add(helper);
-
 
 //CHARACTER
 
@@ -187,7 +181,7 @@ function makeInstance(geometry, material, x, y, z, bodygeometry, mass) {
 	meshes.push(thing);
 	bodies.push(body);
 	
-	return [thing, body] //ritorna anche body quando aggiungo la fisica
+	return [thing, body] 
 }
 
 let meshes = [];
@@ -209,8 +203,6 @@ bone_names.forEach(bone_name => {
 function updatedynamics () {
 	var i=0;
 	
-	//ossa['pony'].getWorldPosition(new THREE.Vector3()).copy(ponybody.position)
-	
 	ossa['pony'].position.copy(ponybody.position)
 	ossa['head'].position.copy(headbody.position)
 	ossa['torso'].position.copy(torsobody.position)
@@ -229,8 +221,6 @@ function updatedynamics () {
 	ossa['handL'].position.copy(hand2body.position)
 	ossa['backpack'].position.copy(backpackbody.position)
 	
-	//ossa['handR'].position.copy(new THREE.Vector3(start.x + hand1body.position.x, start.y + hand1body.position.y, start.z + hand1body.position.z))
-	//ossa['handL'].position.copy(ossa['handL'].position + hand2body.position)
 	
 	ossa['pony'].quaternion.copy(ponybody.quaternion)
 	ossa['head'].quaternion.copy(headbody.quaternion)
@@ -338,7 +328,6 @@ const constraint3 = new CANNON.ConeTwistConstraint(thigh1body, hipsbody,  {
 });
 world.addConstraint(constraint3);
 		
-//		0.03
 		
 const constraint4 = new CANNON.ConeTwistConstraint(thigh2body, hipsbody,  {
 			pivotA: new CANNON.Vec3(0,0.2,0),
@@ -458,27 +447,7 @@ const constraint10 = new CANNON.ConeTwistConstraint(lowerarm2body, upperarm2body
 			twistAngle: 0
 });
 world.addConstraint(constraint10);
-/*
-const constraint15 = new CANNON.ConeTwistConstraint(lowerarm1body, upperarm1body,  {
-			pivotA: new CANNON.Vec3(0.125,0,0),
-            pivotB: new CANNON.Vec3(-0.125,0,0),
-            axisA: CANNON.Vec3.UNIT_Z,
-            axisB: -CANNON.Vec3.UNIT_Z,//X
-            angle: 0,
-			twistAngle: 0
-});
-world.addConstraint(constraint15);
-		
-const constraint16 = new CANNON.ConeTwistConstraint(lowerarm2body, upperarm2body,  {
-			pivotA: new CANNON.Vec3(-0.125,0,0),
-            pivotB: new CANNON.Vec3(0.125,0,0),
-            axisA: CANNON.Vec3.UNIT_Z,
-            axisB: CANNON.Vec3.UNIT_Z,//X
-            angle: 0,
-			twistAngle: 0
-});
-world.addConstraint(constraint16);
-*/
+
 
 const handgeometry = new THREE.BoxGeometry(0.1, 0.1, 0.05);
 const handbodygeometry = new CANNON.Box(new CANNON.Vec3(0.05, 0.05, 0.025));
@@ -491,7 +460,7 @@ const constraint11 = new CANNON.ConeTwistConstraint(hand1body, lowerarm1body,  {
 			pivotA: new CANNON.Vec3(0.06,0,0),
             pivotB: new CANNON.Vec3(-0.14,0,0),
             axisA: CANNON.Vec3.UNIT_X,
-            axisB: CANNON.Vec3.UNIT_X,//X
+            axisB: CANNON.Vec3.UNIT_X,
             angle: Math.PI/4,
 			twistAngle: Math.PI/4
 		});
@@ -584,11 +553,7 @@ for ( let i = 0; i < handles_n; i ++ ) {
 }
 //console.log(coords);
 
-//class Digraph {
-//	constructor()
-
 let graph = {};
-//var sortedcoords = coords.sort(function(a, b) { return a[1] - b[1]; });
 coords.sort(function(a, b) { return a[0] - b[0]; });
 coords.sort(function(a, b) { return a[1] - b[1]; });
 
@@ -597,7 +562,6 @@ const handlegeometry = new THREE.SphereGeometry( 0.05 );
 
 for ( let i = 0; i < handles_n + st_n; i ++ ) {
 						
-	//const rgb_clr = `rgb(${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)})`;
 	const rgb_clr ='rgb(255,0,255)'
 	const handlematerial = new THREE.MeshStandardMaterial( { color: rgb_clr } );
 	const handle = new THREE.Mesh( handlegeometry, handlematerial );
@@ -651,26 +615,7 @@ for ( let i = 0; i < handles_n + st_n; i ++ ) {
 		}
 	}
 }
-/*
-for (let j = 1; j < st_n/2; j ++) {
-	
-	if (!graph[0][2].includes(j)){
-		graph[0][2].push(j);
-		
-		const dir = new THREE.Vector3( coords[j][0]-coords[0][0], coords[j][1]-coords[0][1], 0)
-		const length = dir.length();
-		//normalize the direction vector (convert to vector of length 1)
-		dir.normalize();
-		const origin = new THREE.Vector3( coords[0][0], coords[0][1], 1);
-		const hex = 0x00aaff;
-		const arrowHelper = new THREE.ArrowHelper( dir, origin, length, hex );
-			
-		graph[0][3].push(arrowHelper);
-		scene.add( arrowHelper );
-	
-	}
-}
-*/
+
 //tutta la procedura si può velocizzare avendo anche un grafo con i versi invertiti delle frecce
 //e facendo una specie di dfs
 
@@ -710,17 +655,8 @@ while (looseends)	 {
 
 console.log(graph)
 
-// per muovere la marionetta dobbiamo muovere 4 arti
-// all'inizio le mani possono essere messe a un'altezza che va da 1 a 2 y
-// (nel grafo abbiamo la posizione degli oggetti threejs: list[0].position.y)
-// si parte determinando la posizione dei piedi: i primi due punti nel grafo (se sono ad altezza da 0 a 1)
-// dopodiché si sale il grafo sulle adiacenze finché 1<list[0].position.y<2 e si ottengono le posizioni delle mani
-// si muovono in sequenza hand1, hand2, foot1, foot2
-// nei passi successivi si fanno avanzare gli arti mantenendo i vincoli di distanza da un baricentro
 
 const keys = Object.keys(graph);
-
-//fare un for per cercare un nodo abbastanza vicino per il secondo piede
 
 const node_0 = keys[0];
 const node_1 = keys[1];
@@ -757,34 +693,11 @@ else {
 	}
 }
 
-//foot1body.mass = 0;
-//foot1body.updateMassProperties ();
-//foot1body.sleep()
-//foot1body.position.copy(graph[node_0][0].position);
-//foot1body.position = new CANNON.Vec3(graph[node_0][0].position.x, graph[node_0][0].position.y + 0.05, graph[node_0][0].position.z)
-
-//Object.values(obj)[0];
-
-//graph[node_0][2] //lista di adiacenze
-/*
-let occupied_nodes = {
-	'F1': node_0,
-	'F2': node_1
-}
-*/
-//[node_0, node_1]
-//let occupied_nodes = [node_0]
 
 function BFS (graph, source, effector, occupied_nodes) {
 	
-	// forse prima devo fare bfs e poi i controlli???
-	// prima della ricerca devo avere un sottoinsieme degli handle raggiungibili
-	// in un quadrato  
 	
 	let Q = [source];
-	
-	
-	//console.log(source, typeof source)
 	
 	let reachable = new Set(new String("source"));
 	let positions = [];
@@ -821,9 +734,6 @@ function BFS (graph, source, effector, occupied_nodes) {
 			cond = (Math.abs(x - occupied_nodes['F1'][1]) < 2)&& (Math.abs(y - occupied_nodes['F1'][2]) < 1) && (Math.abs(y - occupied_nodes['H2'][2]) < 2.30)&& (Math.abs(x - occupied_nodes['H1'][1]) < 2) && (Math.abs(y - occupied_nodes['H1'][2]) < 2.30)&& y < occupied_nodes['H2'][2] - 0.1; //&& x > occupied_nodes['F1'][1] 
 		}
 		
-		//['H1'],!(occupied_nodes['H1']==node)
-		
-		//console.log(occupied_nodes)
 		
 		if (cond 
 			&& (occupied_nodes['H1']==undefined || !(occupied_nodes['H1'][0]==node))
@@ -852,27 +762,17 @@ function BFS (graph, source, effector, occupied_nodes) {
 	
 	if (effector == 'H1first' || effector == 'H1') {
 		positions.sort(function(a, b) { return (2*(b[1]-a[1]) + a[0]-b[0]); });
-		//b[1]-a[1] + a[0]-b[0]
-		//positions.sort(function(a, b) { return b[0] - a[0]; });
 		
 	}
 	if (effector == 'H2') {
 		positions.sort(function(a, b) { return (2*(b[1]-a[1]) + b[0]-a[0]); });
-		//positions.sort(function(a, b) { return a[0] - b[0]; });
-		//b[1]-a[1] + b[0]-a[0]
 		
 	}
 	if (effector == 'F1') {
 		positions.sort(function(a, b) { return  (2*(a[1]-b[1]) + a[0]-b[0]); });
-		//positions.sort(function(a, b) { return b[0] - a[0]; });
-		//(b[0]-a[1]) - (a[0]-b[1])
-		//a[1]-b[1] + a[0]-b[0]
 	}
 	if (effector == 'F2') {
 		positions.sort(function(a, b) { return (2*(a[1]-b[1]) + b[0]-a[0]) ; });
-		//positions.sort(function(a, b) { return a[0] - b[0]; });
-		//(a[0]-a[1]) - (b[0]-b[1])
-		//a[1]-b[1] + b[0]-a[0]
 	}
 	
 	let pos;
@@ -886,23 +786,7 @@ function BFS (graph, source, effector, occupied_nodes) {
 	
 	return [pos, positions.length > 0, occupied_nodes]
 }
-/*
-function updatetween (object, effector){
 
-	if (effector == 'H1') {
-		hand1body.position = new CANNON.Vec3(object.x, object.y, object.z);
-	}
-	else if (effector == 'H2') {
-		hand2body.position = new CANNON.Vec3(object.x, object.y, object.z);
-	}
-	else if (effector == 'F1') {
-		foot1body.position = new CANNON.Vec3(object.x, object.y, object.z);
-	}
-	else if (effector == 'F2') {
-		foot2body.position = new CANNON.Vec3(object.x, object.y, object.z);
-	}
-}
-*/
 function climb (start_h1, start_h2, start_f1, start_f2, occupied_nodes) {
 	
 	let used_nodes = [[start_f1],[start_f2],[start_h1],[start_h2]];
@@ -976,25 +860,6 @@ function climb (start_h1, start_h2, start_f1, start_f2, occupied_nodes) {
 					foot2body.position = new CANNON.Vec3(object.x, object.y, 1);
 				});
 			}
-				
-			/*
-			tween.onUpdate(function (object, elapsed){
-				//updatetween(object, effectors[i])
-				
-				if (effectors[i] == 'H1') {
-					hand1body.position = new CANNON.Vec3(object.x, object.y, object.z);
-				}
-				else if (effectors[i] == 'H2') {
-					hand2body.position = new CANNON.Vec3(object.x, object.y, object.z);
-				}
-				else if (effectors[i] == 'F1') {
-					foot1body.position = new CANNON.Vec3(object.x, object.y, object.z);
-				}
-				else if (effectors[i] == 'F2') {
-					foot2body.position = new CANNON.Vec3(object.x, object.y, object.z);
-				}
-			});
-			*/
 			
 			used_nodes[i].push(node);
 			occupied_nodes[effectors[i]] = [node, graph[node][0].position.x, graph[node][0].position.y]
@@ -1006,7 +871,6 @@ function climb (start_h1, start_h2, start_f1, start_f2, occupied_nodes) {
 			}
 			
 			tweenlist.push(tween);
-			// qui creo un tween che fa salire effectors[i] fino a node
 			
 		}
 		
@@ -1021,38 +885,11 @@ function climb (start_h1, start_h2, start_f1, start_f2, occupied_nodes) {
 }
 
 
-
-
-
-//vincoli per il movimento degli arti
-
-/*
-condH1 = (Math.abs(x - hand2body.position.x) < 1.60) && x < hand2body.position.x && (Math.abs(y - foot1body.position.y) < 1.60) && y > foot1body.position.y;
-condH2 = (Math.abs(x - hand1body.position.x) < 1.60) && x > hand1body.position.x && (Math.abs(y - foot2body.position.y) < 1.60) && y > foot2body.position.y;
-condF1 = (Math.abs(x - foot1body.position.x) < 1.60) && x < foot2body.position.x && (Math.abs(y - hand1body.position.y) < 1.60) && y < hand1body.position.y;
-condF2 = (Math.abs(x - foot2body.position.x) < 1.60) && x > foot1body.position.x && (Math.abs(y - hand2body.position.y) < 1.60) && y < hand2body.position.y;
-*/
-//let [node_1, found1] = BFS (graph, node_0, 0, 'F2');
-
-//setTimeout( () => {
-//hand1body.sleep();
-/*
-if (found1) {
-	
-	//foot2body.position.copy(graph[node_1][0].position)
-	foot2body.mass = 0;
-	foot2body.updateMassProperties ();
-	foot2body.sleep();
-	foot2body.position = new CANNON.Vec3(graph[node_1][0].position.x, graph[node_1][0].position.y + 0.05, graph[node_1][0].position.z)
-	occupied_nodes.push(node_1)
-}
-*/
 let node_2, found2
 [node_2, found2, occupied_nodes] = BFS (graph, node_0, 'H1first', occupied_nodes);
 console.log('H1first', node_2, found2);
 if (found2) {
 	
-	//hand1body.position.copy(graph[node_2][0].position)
 	hand1body.mass = 0;
 	hand1body.updateMassProperties ();
 	hand1body.sleep();
@@ -1068,7 +905,6 @@ else {
 	
 	if (found2) {
 	
-	//hand2body.position.copy(graph[node_3][0].position)
 	hand1body.mass = 0;
 	hand1body.updateMassProperties ();
 	hand1body.sleep();
@@ -1085,7 +921,6 @@ console.log('H2', node_3, found3);
 
 if (found3) {
 	
-	//hand2body.position.copy(graph[node_3][0].position)
 	hand2body.mass = 0;
 	hand2body.updateMassProperties ();
 	hand2body.sleep();
@@ -1101,7 +936,6 @@ else {
 	
 	if (found3) {
 	
-	//hand2body.position.copy(graph[node_3][0].position)
 	hand2body.mass = 0;
 	hand2body.updateMassProperties ();
 	hand2body.sleep();
